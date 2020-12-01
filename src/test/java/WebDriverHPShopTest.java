@@ -4,6 +4,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import pageobject_model.model.SearchAttribute;
 import pageobject_model.page.HPShopCartPage;
 import pageobject_model.page.HPShopHomePage;
 import org.testng.Assert;
@@ -38,7 +39,7 @@ public class WebDriverHPShopTest {
         driver.manage().deleteAllCookies();
         HPShopCartPage cartPage = new HPShopHomePage(driver)
                 .openPage()
-                .setSearchAttribute("Аксессуары")
+                .setSearchAttribute(SearchAttribute.ACCESSORIES)
                 .searchForTerms("HP")
                 .addToCart("HP SMB Backpack Case")
                 .addToCart("HP Odyssey Red/Black Backpack")

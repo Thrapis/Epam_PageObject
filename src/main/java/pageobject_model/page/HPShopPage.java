@@ -3,6 +3,7 @@ package pageobject_model.page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import pageobject_model.model.SearchAttribute;
 import pageobject_model.waits.WaitElementMethods;
 
 public abstract class HPShopPage {
@@ -10,18 +11,18 @@ public abstract class HPShopPage {
     protected WebDriver driver;
 
     protected static final String HOMEPAGE_URL = "https://hp-shop.by/";
-    protected final long WAIT_TIME_SECONDS = 10;
+    protected static final long WAIT_TIME_SECONDS = 10;
 
     public HPShopPage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public HPShopPage setSearchAttribute(String attribute) {
+    public HPShopPage setSearchAttribute(SearchAttribute attribute) {
         WebElement attributeSelector = WaitElementMethods.waitForElementLocatedBy(driver,
                 By.xpath("//div[@id='product-categori']"), WAIT_TIME_SECONDS);
         attributeSelector.click();
         WebElement selection = WaitElementMethods.waitForElementLocatedBy(driver,
-                By.xpath("//label[text()='" + attribute + "']/.."), WAIT_TIME_SECONDS);
+                By.xpath("//label[text()='" + attribute.getAttribute() + "']/.."), WAIT_TIME_SECONDS);
         selection.click();
         return this;
     }
