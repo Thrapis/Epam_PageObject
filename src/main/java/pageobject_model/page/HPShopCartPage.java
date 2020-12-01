@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobject_model.model.ProductInfo;
 import pageobject_model.waits.WaitElementMethods;
 
@@ -26,15 +27,18 @@ public class HPShopCartPage extends HPShopPage{
         By productNamesLocator = By.xpath("//td[@class='th-details']/child::h2/child::a");
         By productPricesLocator = By.xpath("//td[@class='th-price']");
         By productCountsLocator = By.xpath("//td[@class='th-qty']//input[@name='count']");
-        Wait wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(10)).pollingEvery(Duration.ofSeconds(1))
-                .ignoring(NoSuchElementException.class);
 
-        List<WebElement> productNames = (List<WebElement>) wait.until(
-                ExpectedConditions.visibilityOfAllElementsLocatedBy(productNamesLocator));
-        List<WebElement> productPrices = (List<WebElement>) wait.until(
-                ExpectedConditions.visibilityOfAllElementsLocatedBy(productPricesLocator));
-        List<WebElement> productCounts = (List<WebElement>) wait.until(
-                ExpectedConditions.visibilityOfAllElementsLocatedBy(productCountsLocator));
+        WebDriverWait wait = new WebDriverWait(driver, WAIT_TIME_SECONDS);
+        wait.until(ExpectedConditions.elementToBeClickable(productNamesLocator));
+        List<WebElement> productNames = WaitElementMethods.fluentWaitForElementsLocatedBy(
+                driver, productNamesLocator, WAIT_TIME_SECONDS, 2);
+        wait.until(ExpectedConditions.elementToBeClickable(productPricesLocator));
+        List<WebElement> productPrices = WaitElementMethods.fluentWaitForElementsLocatedBy(
+                driver, productPricesLocator, WAIT_TIME_SECONDS, 2);
+        wait.until(ExpectedConditions.elementToBeClickable(productCountsLocator));
+        List<WebElement> productCounts = WaitElementMethods.fluentWaitForElementsLocatedBy(
+                driver, productCountsLocator, WAIT_TIME_SECONDS, 2);
+
         List<ProductInfo> products = new ArrayList<ProductInfo>();
         for (int i = 0; i < productNames.size(); i++) {
             String name = productNames.get(i).getText();
@@ -64,17 +68,23 @@ public class HPShopCartPage extends HPShopPage{
     }
 
     public boolean cartIsEmpty() {
-       WebElement emptyCartMessage = WaitElementMethods.waitForElementLocatedBy(driver,
-               By.xpath("//div[@id='shopCart']/p[text()='Ваша корзина пуста']"), WAIT_TIME_SECONDS);
-       return emptyCartMessage.isDisplayed();
+        WebElement emptyCartMessage = WaitElementMethods.fluentWaitForElementLocatedBy(driver,
+                By.xpath("//p[text()='Ваша корзина пуста']"), WAIT_TIME_SECONDS, 1);
+        return emptyCartMessage.isDisplayed();
     }
 
     public HPShopCartPage purgeCart() {
-        WebElement clearCartButton = WaitElementMethods.waitForElementLocatedBy(driver,
-                By.xpath("//a[@id='butEmptyCart']"), WAIT_TIME_SECONDS);
+        WebDriverWait wait = new WebDriverWait(driver, WAIT_TIME_SECONDS);
+        By purgeCartLocator = By.xpath("//a[@id='butEmptyCart']");
+        By confirmButtonLocator = By.xpath("//div[@id='stuffHelper']//button[@id='confirmButton']");
+
+        wait.until(ExpectedConditions.elementToBeClickable(purgeCartLocator));
+        WebElement clearCartButton = WaitElementMethods.fluentWaitForElementLocatedBy(
+                driver, purgeCartLocator, WAIT_TIME_SECONDS, 1);
         clearCartButton.click();
-        WebElement confirmButton = WaitElementMethods.waitForElementLocatedBy(driver,
-                By.xpath("//div[@id='stuffHelper']//button[@id='confirmButton']"), WAIT_TIME_SECONDS);
+        wait.until(ExpectedConditions.elementToBeClickable(confirmButtonLocator));
+        WebElement confirmButton = WaitElementMethods.fluentWaitForElementLocatedBy(
+                driver, confirmButtonLocator, WAIT_TIME_SECONDS, 1);
         confirmButton.click();
         return this;
     }

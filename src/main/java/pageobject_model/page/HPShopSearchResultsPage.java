@@ -9,16 +9,15 @@ import pageobject_model.waits.WaitElementMethods;
 
 public class HPShopSearchResultsPage extends HPShopPage{
 
-    private String term;
+    private static final String productLinkTemplate = "//a[contains(text(), '$')]";
 
-    public HPShopSearchResultsPage(WebDriver driver, String term) {
+    public HPShopSearchResultsPage(WebDriver driver) {
         super(driver);
-        this.term = term;
     }
 
     public HPShopProductPage selectProductLink(String name) {
         WebElement productInfoLink = WaitElementMethods.waitForElementLocatedBy(driver,
-                By.xpath("//a[contains(text(), '" + name + "')]"), WAIT_TIME_SECONDS);
+                By.xpath(productLinkTemplate.replace("$", name)), WAIT_TIME_SECONDS);
         productInfoLink.click();
         return new HPShopProductPage(driver);
     }
