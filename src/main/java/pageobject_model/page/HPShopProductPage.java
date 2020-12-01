@@ -11,7 +11,6 @@ public class HPShopProductPage extends HPShopPage{
 
     public HPShopProductPage(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
     }
 
     public HPShopProductPage addToCart() {

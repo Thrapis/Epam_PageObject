@@ -27,7 +27,7 @@ public abstract class HPShopPage {
         return this;
     }
 
-    public HPShopSearchResultsPage searchForTerms(String term){
+    public HPShopSearchResultsPage searchForTerms(String term) {
         WebElement searchInputField = WaitElementMethods.waitForElementLocatedBy(driver,
                 By.xpath("//input[@name='search']"), WAIT_TIME_SECONDS);
         searchInputField.sendKeys(term);

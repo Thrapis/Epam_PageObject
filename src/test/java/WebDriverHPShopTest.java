@@ -4,10 +4,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import pageobject_model.model.ProductInfo;
 import pageobject_model.model.SearchAttribute;
 import pageobject_model.page.HPShopCartPage;
 import pageobject_model.page.HPShopHomePage;
 import org.testng.Assert;
+
+import java.util.List;
 
 public class WebDriverHPShopTest {
 
@@ -24,21 +27,20 @@ public class WebDriverHPShopTest {
         driver.manage().deleteAllCookies();
         String productName = "EliteDisplay S430c";
         HPShopCartPage cartPage = new HPShopHomePage(driver)
-                .openPage()
                 .searchForTerms(productName)
                 .selectProductLink(productName)
                 .addToCart()
                 .openCart();
-        Assert.assertTrue(cartPage.getCartTotalCost() > 0.0);
-        Assert.assertTrue(cartPage.getProductsFromCart().get(0).getText().contains(productName));
-        Assert.assertEquals(cartPage.getProductCountFromCart(productName), 1);
+        List<ProductInfo> products = cartPage.getProductsFromCart();
+        Assert.assertEquals(cartPage.getCartTotalCost(), 3504.0);
+        Assert.assertTrue(products.get(0).getName().contains(productName));
+        Assert.assertEquals(products.get(0).getCount(), 1);
     }
 
     @Test
     public void verifyCartAfterPurgeTest() {
         driver.manage().deleteAllCookies();
         HPShopCartPage cartPage = new HPShopHomePage(driver)
-                .openPage()
                 .setSearchAttribute(SearchAttribute.ACCESSORIES)
                 .searchForTerms("HP")
                 .addToCart("HP SMB Backpack Case")
