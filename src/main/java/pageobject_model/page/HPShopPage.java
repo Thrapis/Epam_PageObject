@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import pageobject_model.model.SearchAttribute;
-import pageobject_model.waits.WaitElementMethods;
+import waits.WaitElementMethods;
 
 public abstract class HPShopPage {
 

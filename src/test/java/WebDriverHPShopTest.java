@@ -1,7 +1,8 @@
+import org.assertj.core.api.Assertions;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pageobject_model.model.ProductInfo;
@@ -9,7 +10,6 @@ import pageobject_model.model.SearchAttribute;
 import pageobject_model.page.HPShopCartPage;
 import pageobject_model.page.HPShopHomePage;
 import org.testng.Assert;
-
 import java.util.List;
 
 public class WebDriverHPShopTest {
@@ -22,9 +22,13 @@ public class WebDriverHPShopTest {
         driver.manage().window().maximize();
     }
 
+    @BeforeMethod(alwaysRun = true)
+    public void clearCookies() {
+        driver.manage().deleteAllCookies();
+    }
+
     @Test
     public void verifyCartAfterAdditionOfProductTest() {
-        driver.manage().deleteAllCookies();
         String productName = "EliteDisplay S430c";
         HPShopCartPage cartPage = new HPShopHomePage(driver)
                 .searchForTerms(productName)
@@ -33,13 +37,12 @@ public class WebDriverHPShopTest {
                 .openCart();
         List<ProductInfo> products = cartPage.getProductsFromCart();
         Assert.assertEquals(cartPage.getCartTotalCost(), 3504.0);
-        Assert.assertTrue(products.get(0).getName().contains(productName));
+        Assertions.assertThat(products.get(0).getName()).contains(productName);
         Assert.assertEquals(products.get(0).getCount(), 1);
     }
 
     @Test
     public void verifyCartAfterPurgeTest() {
-        driver.manage().deleteAllCookies();
         HPShopCartPage cartPage = new HPShopHomePage(driver)
                 .setSearchAttribute(SearchAttribute.ACCESSORIES)
                 .searchForTerms("HP")

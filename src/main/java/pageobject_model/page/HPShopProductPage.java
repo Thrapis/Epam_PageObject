@@ -3,9 +3,7 @@ package pageobject_model.page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
-import pageobject_model.waits.WaitElementMethods;
+import waits.WaitElementMethods;
 
 public class HPShopProductPage extends HPShopPage{
 

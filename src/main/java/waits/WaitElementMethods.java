@@ -1,4 +1,4 @@
-package pageobject_model.waits;
+package waits;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -8,11 +8,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 import java.util.List;
 
-public class WaitElementMethods {
+public abstract class WaitElementMethods {
     public static WebElement waitForElementLocatedBy(WebDriver driver, By by, long time) {
         return new WebDriverWait(driver, time)
                 .until(ExpectedConditions.visibilityOfElementLocated(by));
