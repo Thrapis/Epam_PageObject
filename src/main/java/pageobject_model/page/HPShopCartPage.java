@@ -7,13 +7,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobject_model.model.ProductInfo;
 import waits.WaitElementMethods;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class HPShopCartPage extends HPShopPage{
 
-    private final static String productPathTemplate = "//a[contains(text(), '$')]/../../..//input[@class='shk-count']";
+    private final static String productCountPathTemplate = "//a[contains(text(), '$')]/../../..//input[@class='shk-count']";
 
     public HPShopCartPage(WebDriver driver) {
         super(driver);
@@ -49,7 +48,7 @@ public class HPShopCartPage extends HPShopPage{
 
     public int getProductCountFromCart(String name) {
         WebElement productCountElement = WaitElementMethods.waitForElementLocatedBy(driver,
-                By.xpath(productPathTemplate.replace("$", name)), WAIT_TIME_SECONDS);
+                By.xpath(productCountPathTemplate.replace("$", name)), WAIT_TIME_SECONDS);
         return Integer.parseInt(productCountElement.getAttribute("value"));
     }
 
